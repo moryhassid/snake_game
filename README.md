@@ -1,4 +1,4 @@
-# snake_game
+# Snake game
 
 
 <p align="center">
