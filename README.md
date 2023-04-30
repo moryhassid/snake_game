@@ -1,5 +1,11 @@
 # snake_game
 
+
+<p align="center">
+  <img src="images\anomaly.jpg" width="300">
+</p>
+
+
 Welcome to my game, I have implemented the game "Snake".
 Here you can see there are multiple stages of difficulties.
 Moreover, I have added a scoreboard using pandas.
