@@ -11,7 +11,7 @@ Here you can see there are multiple stages of difficulties.
 Moreover, I have added a scoreboard using pandas.
 
 When executing the game you will be requested to enter your name,
-afterwards,A timer will start and your snake will need to eat all the apple
+afterwards a timer will start and your snake will need to eat all the apple
 (red circle)
 
 
