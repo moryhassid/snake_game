@@ -2,7 +2,7 @@
 
 
 <p align="center">
-  <img src="images\anomaly.jpg" width="300">
+  <img src="images\animation_snake.gif" width="300">
 </p>
 
 
