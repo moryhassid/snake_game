@@ -27,6 +27,21 @@ def save_score_in_score_board(player_name_input, minutes, seconds, date_now, hou
     df.to_csv('score_board.csv', header=True, index=False)
 
 
+def handle_boundaries(player_position, current_score):
+    if current_score > 5:
+        if player_position.y == 0:
+            player_position.y = screen.get_height()
+        elif player_position.y == screen.get_height():
+            player_position.y = 0
+
+        if player_position.x == screen.get_width():
+            player_position.x = 0
+        elif player_pos.x == 0:
+            player_pos.x = screen.get_width()
+
+    return player_position
+
+
 if __name__ == '__main__':
 
     if os.path.exists('score_board.csv'):
@@ -49,6 +64,7 @@ if __name__ == '__main__':
     running = True
 
     player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
+    player_pos_offset = pygame.Vector2(0, 0)
     apple_position = pygame.Vector2(10, 10)  # pygame.Vector2(590, 335)
     dt = 0
 
@@ -91,36 +107,33 @@ if __name__ == '__main__':
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_UP]:
-            if score > 5 and player_pos.y == 0:
-                player_pos.y = screen.get_height()
-            player_pos.y -= 5
+            player_pos_offset.y = -5
+            player_pos_offset.x = 0
         if keys[pygame.K_DOWN]:
-            if score > 5 and player_pos.y == screen.get_height():
-                player_pos.y = 0
-            player_pos.y += 5
+            player_pos_offset.y = 5
+            player_pos_offset.x = 0
         if keys[pygame.K_LEFT]:
-            if score > 5 and player_pos.x == 0:
-                player_pos.x = screen.get_width()
-            else:
-                if player_pos.x > 0:
-                    player_pos.x -= 5
+            player_pos_offset.y = 0
+            player_pos_offset.x = -5
         if keys[pygame.K_RIGHT]:
-            if score > 5 and player_pos.x == screen.get_width():
-                player_pos.x = 0
-            player_pos.x += 5
+            player_pos_offset.y = 0
+            player_pos_offset.x = 5
 
         # print(f'player_pos: {player_pos.x, player_pos.y},'
         #       f' apple_position: ({x_apple, y_apple})')
 
-        res = is_snake_reached_apple(player_pos, apple_position)
+        player_pos = handle_boundaries(player_position=player_pos, current_score=score)
+
+        snake_ate_an_apple = is_snake_reached_apple(player_pos, apple_position)
         pygame.display.set_caption(
             f'Mory your score is: {score}, Time: {time_passed} Seconds, Super power is {super_power} active')
 
-        if res:
+        if snake_ate_an_apple:
             score += 1
             x_apple = get_a_new_number(0, screen.get_width())
             y_apple = get_a_new_number(0, screen.get_height())
             apple_position = pygame.Vector2(x_apple, y_apple)
+            # make it faster
             if score == 5:
                 super_power = ''
                 time_duration_to_move_apple = 100
@@ -132,6 +145,8 @@ if __name__ == '__main__':
         # dt is delta time in seconds since last frame, used for framerate-
         # independent physics.
         dt = clock.tick(60) / 1000
+        player_pos.y += player_pos_offset.y
+        player_pos.x += player_pos_offset.x
 
     pygame.quit()
 
