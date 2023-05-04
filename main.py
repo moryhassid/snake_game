@@ -12,12 +12,17 @@ def get_a_new_number(low, high):
     return random.randint(a=low, b=high)
 
 
-def is_snake_reached_apple(snake_head_pos, apple_pos):
-    if abs(snake_head_pos[0] - apple_pos[0]) < 10 and abs(snake_head_pos[1] - apple_pos[1]) < 10:
-        # if snake_head_pos == apple_pos:
+def is_snake_reached_apple(joints, apple_pos):
+    joint_head = joints[0]
+    if abs(joint_head[0] - apple_pos[0]) < 10 and abs(joint_head[1] - apple_pos[1]) < 10:
         return True
     else:
         return False
+    # if abs(snake_head_pos[0] - apple_pos[0]) < 10 and abs(snake_head_pos[1] - apple_pos[1]) < 10:
+    #     # if snake_head_pos == apple_pos:
+    #     return True
+    # else:
+    #     return False
 
 
 # Description: This function is responsible to save the player's score into the file
@@ -82,6 +87,9 @@ if __name__ == '__main__':
     hour_now = datetime.datetime.now().time()
     started = time.time()
     super_power = 'not'
+    snake_length = 1
+
+    snake_joints_position = [player_pos]
 
     while running and score < points_to_reach_game_over:
         frame_number += 1
@@ -103,38 +111,55 @@ if __name__ == '__main__':
         # screen.fill("lightblue")
         screen.fill((85, 240, 171))
 
-        pygame.draw.circle(screen, (255, 0, 0), apple_position, 10)
-        pygame.draw.circle(screen, (0, 0, 0), player_pos, 10)
+        pygame.draw.circle(screen, (255, 0, 0), apple_position, 7.5)
+
+        # pygame.draw.circle(screen, (0, 0, 0), player_pos, 10)
+
+        # pygame.draw.rect(surface, color, pygame.Rect(30, 30, 60, 60))
+        for joint_pos in snake_joints_position:
+            pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(joint_pos.x, joint_pos.y, 15, 15))
 
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_UP]:
-            player_pos_offset.y = -5
+            player_pos_offset.y = -15
             player_pos_offset.x = 0
         if keys[pygame.K_DOWN]:
-            player_pos_offset.y = 5
+            player_pos_offset.y = 15
             player_pos_offset.x = 0
         if keys[pygame.K_LEFT]:
             player_pos_offset.y = 0
-            player_pos_offset.x = -5
+            player_pos_offset.x = -15
         if keys[pygame.K_RIGHT]:
             player_pos_offset.y = 0
-            player_pos_offset.x = 5
+            player_pos_offset.x = 15
 
         # print(f'player_pos: {player_pos.x, player_pos.y},'
         #       f' apple_position: ({x_apple, y_apple})')
 
-        player_pos = handle_boundaries(player_position=player_pos, current_score=score)
+        # player_pos = handle_boundaries(player_position=player_pos, current_score=score)
 
-        snake_ate_an_apple = is_snake_reached_apple(player_pos, apple_position)
         pygame.display.set_caption(
             f'Mory your score is: {score}, Time: {time_passed} Seconds, Super power is {super_power} active')
 
+        snake_ate_an_apple = is_snake_reached_apple(snake_joints_position, apple_position)
+
         if snake_ate_an_apple:
             score += 1
+            # New position for the apple
             x_apple = get_a_new_number(0, screen.get_width())
             y_apple = get_a_new_number(0, screen.get_height())
             apple_position = pygame.Vector2(x_apple, y_apple)
+
+            tail = snake_joints_position[-1]
+            new_tail = tail.copy()
+            # joint.y += player_pos_offset.y
+            # joint.x += player_pos_offset.x
+            new_tail.y = new_tail.y + player_pos_offset.y
+            new_tail.x = new_tail.x + player_pos_offset.x
+
+            snake_joints_position.append(new_tail)
+
             # make it faster
             if score == 5:
                 super_power = ''
@@ -146,9 +171,17 @@ if __name__ == '__main__':
         # limits FPS to 60
         # dt is delta time in seconds since last frame, used for framerate-
         # independent physics.
-        dt = clock.tick(60) / 1000
-        player_pos.y += player_pos_offset.y
-        player_pos.x += player_pos_offset.x
+        dt = clock.tick(20) / 1000
+
+        # for joint in snake_joints_position:
+        #     joint.y += player_pos_offset.y
+        #     joint.x += player_pos_offset.x
+        new_head = pygame.Vector2(snake_joints_position[0].x + player_pos_offset.x,
+                                  snake_joints_position[0].y + player_pos_offset.y)
+
+        snake_joints_position = [new_head] + snake_joints_position[:-1]
+        # player_pos.y += player_pos_offset.y
+        # player_pos.x += player_pos_offset.x
 
     pygame.quit()
 
