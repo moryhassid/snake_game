@@ -7,6 +7,7 @@ import datetime
 import pandas as pd
 
 
+#
 def get_a_new_number(low, high):
     return random.randint(a=low, b=high)
 
@@ -19,6 +20,7 @@ def is_snake_reached_apple(snake_head_pos, apple_pos):
         return False
 
 
+# Description: This function is responsible to save the player's score into the file
 def save_score_in_score_board(player_name_input, minutes, seconds, date_now, hour_now):
     df.loc[len(df.index)] = [player_name_input, f'{minutes:02}:{seconds:02}',
                              date_now, hour_now]
