@@ -123,17 +123,21 @@ if __name__ == '__main__':
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_UP]:
-            player_pos_offset.y = -15
+            if player_pos_offset.y != 15:  # The snake not going down
+                player_pos_offset.y = -15  # The snake will go up
             player_pos_offset.x = 0
         if keys[pygame.K_DOWN]:
-            player_pos_offset.y = 15
+            if player_pos_offset.y != -15:  # The snake not going up
+                player_pos_offset.y = 15  # The snake will go down
             player_pos_offset.x = 0
         if keys[pygame.K_LEFT]:
+            if player_pos_offset.x != 15:  # The snake not going right
+                player_pos_offset.x = -15  # The snake will go left
             player_pos_offset.y = 0
-            player_pos_offset.x = -15
         if keys[pygame.K_RIGHT]:
+            if player_pos_offset.x != -15:  # The snake not going left
+                player_pos_offset.x = 15  # The snake not going right
             player_pos_offset.y = 0
-            player_pos_offset.x = 15
 
         # print(f'player_pos: {player_pos.x, player_pos.y},'
         #       f' apple_position: ({x_apple, y_apple})')
