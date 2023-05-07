@@ -72,7 +72,8 @@ if __name__ == '__main__':
 
     player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
     player_pos_offset = pygame.Vector2(0, 0)
-    apple_position = pygame.Vector2(10, 10)  # pygame.Vector2(590, 335)
+    apple_position = pygame.Vector2(get_a_new_number(0, screen.get_width()),
+                                    get_a_new_number(0, screen.get_height()))  # pygame.Vector2(590, 335)
     dt = 0
 
     x_apple = get_a_new_number(0, screen.get_width())
