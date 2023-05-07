@@ -14,7 +14,7 @@ def get_a_new_number(low, high):
 
 def is_snake_reached_apple(joints, apple_pos):
     joint_head = joints[0]
-    if abs(joint_head[0] - apple_pos[0]) < 10 and abs(joint_head[1] - apple_pos[1]) < 10:
+    if abs(joint_head[0] - apple_pos[0]) < 15 and abs(joint_head[1] - apple_pos[1]) < 15:
         return True
     else:
         return False
