@@ -18,11 +18,18 @@ def is_snake_reached_apple(joints, apple_pos):
         return True
     else:
         return False
-    # if abs(snake_head_pos[0] - apple_pos[0]) < 10 and abs(snake_head_pos[1] - apple_pos[1]) < 10:
-    #     # if snake_head_pos == apple_pos:
-    #     return True
-    # else:
-    #     return False
+
+
+def is_snake_ate_its_body(joints):
+    # The snake should be at least length of 3 joints
+    if len(joints) > 3:
+        joint_head = joints[0]
+
+        for current_joint in joints[1:]:  # Skipping on the head
+            if joint_head[0] == current_joint[0] and joint_head[1] == current_joint[1]:
+                return True
+
+    return False
 
 
 # Description: This function is responsible to save the player's score into the file
@@ -178,15 +185,18 @@ if __name__ == '__main__':
         # independent physics.
         dt = clock.tick(20) / 1000
 
-        # for joint in snake_joints_position:
-        #     joint.y += player_pos_offset.y
-        #     joint.x += player_pos_offset.x
         new_head = pygame.Vector2(snake_joints_position[0].x + player_pos_offset.x,
                                   snake_joints_position[0].y + player_pos_offset.y)
 
         snake_joints_position = [new_head] + snake_joints_position[:-1]
-        # player_pos.y += player_pos_offset.y
-        # player_pos.x += player_pos_offset.x
+
+        snake_ate_its_body = is_snake_ate_its_body(snake_joints_position)
+
+        if snake_ate_its_body:
+            print('Game Over - you have ate your body')
+            pygame.quit()
+            print("Bye")
+            exit(0)
 
     pygame.quit()
 
