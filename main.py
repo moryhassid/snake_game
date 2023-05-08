@@ -41,19 +41,21 @@ def save_score_in_score_board(player_name_input, minutes, seconds, date_now, hou
     df.to_csv('score_board.csv', header=True, index=False)
 
 
-def handle_boundaries(player_position, current_score):
-    if current_score > 5:
-        if player_position.y == 0:
-            player_position.y = screen.get_height()
-        elif player_position.y == screen.get_height():
-            player_position.y = 0
+def handle_boundaries(joints, current_score):
+    if current_score > 3:
+        head_joint = joints[1]
+        if head_joint.y == 1:
+            head_joint.y = screen.get_height()
+        elif head_joint.y == screen.get_height():
+            head_joint.y = -1
+        if head_joint.x == screen.get_width():
+            head_joint.x = 1
+        elif head_joint.x == -1:
+            head_joint.x = screen.get_width()
 
-        if player_position.x == screen.get_width():
-            player_position.x = 0
-        elif player_pos.x == 0:
-            player_pos.x = screen.get_width()
+        joints = [head_joint] + joints[1:]
 
-    return player_position
+    return joints
 
 
 if __name__ == '__main__':
@@ -146,10 +148,7 @@ if __name__ == '__main__':
                 player_pos_offset.x = 15  # The snake not going right
             player_pos_offset.y = 0
 
-        # print(f'player_pos: {player_pos.x, player_pos.y},'
-        #       f' apple_position: ({x_apple, y_apple})')
-
-        # player_pos = handle_boundaries(player_position=player_pos, current_score=score)
+        snake_joints_position = handle_boundaries(joints=snake_joints_position, current_score=score)
 
         pygame.display.set_caption(
             f'Mory your score is: {score}, Time: {time_passed} Seconds, Super power is {super_power} active')
@@ -191,6 +190,7 @@ if __name__ == '__main__':
         snake_joints_position = [new_head] + snake_joints_position[:-1]
 
         snake_ate_its_body = is_snake_ate_its_body(snake_joints_position)
+
 
         if snake_ate_its_body:
             print('Game Over - you have ate your body')
