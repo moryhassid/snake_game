@@ -41,21 +41,31 @@ def save_score_in_score_board(player_name_input, minutes, seconds, date_now, hou
     df.to_csv('score_board.csv', header=True, index=False)
 
 
-def handle_boundaries(joints, current_score):
+def handle_boundaries(joints, current_score, offset):
+    head_joint = joints[0]
+    print(f'head(x,y) = ({head_joint.x},{head_joint.y})')
     if current_score > 3:
-        head_joint = joints[1]
-        if head_joint.y == 1:
-            head_joint.y = screen.get_height()
-        elif head_joint.y == screen.get_height():
-            head_joint.y = -1
-        if head_joint.x == screen.get_width():
-            head_joint.x = 1
-        elif head_joint.x == -1:
-            head_joint.x = screen.get_width()
+        if head_joint.y < -10:
+            head_joint.y = 680
+        elif head_joint.y > 680:
+            head_joint.y = 0
+        if head_joint.x > 1190:
+            head_joint.x = 0
+        elif head_joint.x < -10:
+            head_joint.x = 1190
 
         joints = [head_joint] + joints[1:]
+    else:
+        if head_joint.y > 680 and offset.y == 15:
+            offset.y = 0
+        elif head_joint.y < -10.0 and offset.y == -15:
+            offset.y = 0
+        elif head_joint.x < -10.0 and offset.x == -15:
+            offset.x = 0
+        elif head_joint.x > 1190 and offset.x == 15:
+            offset.x = 0
 
-    return joints
+    return joints, offset
 
 
 if __name__ == '__main__':
@@ -148,7 +158,8 @@ if __name__ == '__main__':
                 player_pos_offset.x = 15  # The snake not going right
             player_pos_offset.y = 0
 
-        snake_joints_position = handle_boundaries(joints=snake_joints_position, current_score=score)
+        snake_joints_position, player_pos_offset = handle_boundaries(joints=snake_joints_position, current_score=score,
+                                                                     offset=player_pos_offset)
 
         pygame.display.set_caption(
             f'Mory your score is: {score}, Time: {time_passed} Seconds, Super power is {super_power} active')
@@ -190,7 +201,6 @@ if __name__ == '__main__':
         snake_joints_position = [new_head] + snake_joints_position[:-1]
 
         snake_ate_its_body = is_snake_ate_its_body(snake_joints_position)
-
 
         if snake_ate_its_body:
             print('Game Over - you have ate your body')
