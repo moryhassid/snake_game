@@ -3,7 +3,7 @@
 
 <p align="center">
   <img src="images\animation_snake.gif" width="300">
-</p>
+</p
 
 
 Welcome to my game, I have implemented the game "Snake".
@@ -19,10 +19,28 @@ In the end of the game you will get your position in the scoreboard.
 
 **Sketches and brainstorming**
 
+First Page:
+
+In the page, we see the snake in several positions each position in a different 
+time slice/slot.
+
+| Time Slice | Apple's Position | Snake head's position | Snake's length |
+|------------|------------------|-----------------------|----------------|
+| 1 sec      | (4,4)            | (6,4)                 | 1              |
+| 2 sec      | (4,4)            | (5,4)                 | 1              |
+| 3 sec      | -                | (4,4)                 | 2              |
+| 4 sec      | (4,2)            | (3,4)                 | 2              |
+| 5 sec      | (4,2)            | (2,4)                 | 3              |
+
+is a single joint (head), 
+in the time slice t=1sec we see the apple in position (4,4)
+
 <p align="center">
   <img src="images\1.jpg" width="400">
 </p>
 
+
+Second Page:
 
 <p align="center">
   <img src="images\2.jpg" width="400">
