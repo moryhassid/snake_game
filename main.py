@@ -45,24 +45,24 @@ def handle_boundaries(joints, current_score, offset):
     head_joint = joints[0]
     print(f'head(x,y) = ({head_joint.x},{head_joint.y})')
     if current_score > 3:
-        if head_joint.y < -10:
-            head_joint.y = 680
-        elif head_joint.y > 680:
+        if head_joint.y < 0:
+            head_joint.y = screen.get_height()
+        elif head_joint.y > screen.get_height():
             head_joint.y = 0
-        if head_joint.x > 1190:
+        if head_joint.x > screen.get_width():
             head_joint.x = 0
-        elif head_joint.x < -10:
-            head_joint.x = 1190
+        elif head_joint.x < 0:
+            head_joint.x = screen.get_width()
 
         joints = [head_joint] + joints[1:]
     else:
-        if head_joint.y > 680 and offset.y == 15:
+        if head_joint.y > screen.get_height() and offset.y == 15:
             offset.y = 0
-        elif head_joint.y < -10.0 and offset.y == -15:
+        elif head_joint.y < 0 and offset.y == -15:
             offset.y = 0
-        elif head_joint.x < -10.0 and offset.x == -15:
+        elif head_joint.x < 0 and offset.x == -15:
             offset.x = 0
-        elif head_joint.x > 1190 and offset.x == 15:
+        elif head_joint.x > screen.get_width() and offset.x == 15:
             offset.x = 0
 
     return joints, offset
