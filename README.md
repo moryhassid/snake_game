@@ -10,6 +10,10 @@ Welcome to my game, I have implemented the game "Snake".
 Here you can see there are multiple stages of difficulties.
 Moreover, I have added a scoreboard using pandas.
 
+I have added a **"super-power"** for the snake, snake is rewarded after 4 points it earned,
+so it will be able to jump from one screen's edge/boundary to the other.  
+
+
 When executing the game you will be requested to enter your name,
 afterwards a timer will start and your snake will need to eat all the apple
 (red circle)
