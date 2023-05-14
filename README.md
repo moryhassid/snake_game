@@ -17,5 +17,15 @@ afterwards a timer will start and your snake will need to eat all the apple
 
 In the end of the game you will get your position in the scoreboard.
 
+**Sketches and brainstorming**
+
+<p align="center">
+  <img src="images\1.jpg" width="400">
+</p>
+
+
+<p align="center">
+  <img src="images\2.jpg" width="400">
+</p>
 
 Good Luck!
