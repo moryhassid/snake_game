@@ -1,10 +1,18 @@
-# Snake game
+<!-- TOC -->
+* [Snake Game](#air-hockey)
+  * [Introduction](#introduction)
+  * [First Page](#first-page)
+  * [Second Page](#second-page)
+<!-- TOC -->
 
+
+# Snake Game
 
 <p align="center">
   <img src="images\animation_snake.gif" width="300">
 </p
 
+## Introduction
 
 Welcome to my game, I have implemented the game "Snake".
 Here you can see there are multiple stages of difficulties.
